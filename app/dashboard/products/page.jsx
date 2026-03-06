@@ -13,6 +13,10 @@ export default function ProductsPage() {
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
 
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   async function getProducts() {
     const res = await fetch("https://dummyjson.com/products");
     const data = await res.json();
@@ -42,6 +46,16 @@ export default function ProductsPage() {
     return 0;
 
   });
+
+  // pagination calculations
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  const paginatedProducts = sortedProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   function handleSort(field) {
 
@@ -74,7 +88,10 @@ export default function ProductsPage() {
         type="text"
         placeholder="Search product..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setCurrentPage(1);
+        }}
         className="mb-4 w-full md:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
 
@@ -97,7 +114,7 @@ export default function ProductsPage() {
           </thead>
 
           <tbody>
-            {sortedProducts.map((product) => {
+            {paginatedProducts.map((product) => {
 
               const row = [
                 product.title,
@@ -122,6 +139,42 @@ export default function ProductsPage() {
           </tbody>
 
         </table>
+
+      </div>
+
+      {/* pagination */}
+
+      <div className="flex justify-center items-center gap-2 mt-6">
+
+        <button
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40"
+        >
+          Prev
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-3 py-1 rounded border ${
+              currentPage === i + 1
+                ? "bg-indigo-600 border-indigo-600"
+                : "bg-slate-800 border-slate-700"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40"
+        >
+          Next
+        </button>
 
       </div>
 
