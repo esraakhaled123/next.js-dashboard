@@ -1,5 +1,5 @@
 "use client";
-
+import { exportToExcel ,exportToPDF} from "@/lib/exportTable";
 import { useEffect, useState } from "react";
 
 export default function ProductsPage() {
@@ -17,15 +17,19 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  async function getProducts() {
+ 
+
+  useEffect(() => {
+
+  async function fetchProducts() {
     const res = await fetch("https://dummyjson.com/products");
     const data = await res.json();
     setProducts(data.products);
   }
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  fetchProducts();
+
+}, []);
 
   // filtering
   const filteredProducts = products.filter((product) =>
@@ -83,17 +87,40 @@ export default function ProductsPage() {
       </h2>
 
       {/* search */}
+<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
 
-      <input
-        type="text"
-        placeholder="Search product..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentPage(1);
-        }}
-        className="mb-4 w-full md:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      />
+  {/* search */}
+  <input
+    type="text"
+    placeholder="Search product..."
+    value={search}
+    onChange={(e) => {
+      setSearch(e.target.value);
+      setCurrentPage(1);
+    }}
+    className="w-full md:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  />
+
+  {/* buttons */}
+  <div className="flex gap-2">
+
+    <button
+      onClick={() => exportToExcel(sortedProducts, "products")}
+      className="px-4 py-2 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm transition"
+    >
+      Export Excel
+    </button>
+
+    <button
+      onClick={() => exportToPDF(sortedProducts, "products")}
+      className="px-4 py-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition"
+    >
+      Export PDF
+    </button>
+
+  </div>
+
+</div>
 
       <div className="overflow-x-auto">
 
