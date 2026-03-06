@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 export default function ProductsPage() {
 
   const [products, setProducts] = useState([]);
+
+  // search
   const [search, setSearch] = useState("");
+
+  // sorting
+  const [sortField, setSortField] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
 
   async function getProducts() {
     const res = await fetch("https://dummyjson.com/products");
@@ -17,11 +23,43 @@ export default function ProductsPage() {
     getProducts();
   }, []);
 
+  // filtering
   const filteredProducts = products.filter((product) =>
     product.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  const headers = ["Title", "Price", "Category", "Rating"];
+  // sorting
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+
+    if (!sortField) return 0;
+
+    if (a[sortField] < b[sortField])
+      return sortOrder === "asc" ? -1 : 1;
+
+    if (a[sortField] > b[sortField])
+      return sortOrder === "asc" ? 1 : -1;
+
+    return 0;
+
+  });
+
+  function handleSort(field) {
+
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+
+  }
+
+  const headers = [
+    { label: "Title", key: "title" },
+    { label: "Price", key: "price" },
+    { label: "Category", key: "category" },
+    { label: "Rating", key: "rating" },
+  ];
 
   return (
     <div className="bg-slate-900 p-6 rounded-xl shadow border border-slate-700">
@@ -47,15 +85,19 @@ export default function ProductsPage() {
           <thead className="bg-slate-800">
             <tr>
               {headers.map((head) => (
-                <th key={head} className="p-3 font-semibold">
-                  {head}
+                <th
+                  key={head.key}
+                  onClick={() => handleSort(head.key)}
+                  className="p-3 font-semibold cursor-pointer hover:text-indigo-400"
+                >
+                  {head.label}
                 </th>
               ))}
             </tr>
           </thead>
 
           <tbody>
-            {filteredProducts.map((product) => {
+            {sortedProducts.map((product) => {
 
               const row = [
                 product.title,
