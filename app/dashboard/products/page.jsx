@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function ProductsPage() {
 
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
 
   async function getProducts() {
     const res = await fetch("https://dummyjson.com/products");
@@ -16,47 +17,71 @@ export default function ProductsPage() {
     getProducts();
   }, []);
 
-  return (
-    <div className="bg-white p-6 rounded-xl shadow">
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(search.toLowerCase())
+  );
 
-      <h2 className="text-xl font-semibold mb-4">
+  const headers = ["Title", "Price", "Category", "Rating"];
+
+  return (
+    <div className="bg-slate-900 p-6 rounded-xl shadow border border-slate-700">
+
+      <h2 className="text-xl font-semibold mb-4 text-white">
         Products Table
       </h2>
 
-      <table className="w-full border">
+      {/* search */}
 
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="p-3 text-left">Title</th>
-            <th className="p-3 text-left">Price</th>
-            <th className="p-3 text-left">Category</th>
-            <th className="p-3 text-left">Rating</th>
-          </tr>
-        </thead>
+      <input
+        type="text"
+        placeholder="Search product..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="mb-4 w-full md:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
 
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id} className="border-t">
+      <div className="overflow-x-auto">
 
-              <td className="p-3">{product.title}</td>
+        <table className="w-full text-sm text-left text-slate-200">
 
-              <td className="p-3">
-                ${product.price}
-              </td>
-
-              <td className="p-3">
-                {product.category}
-              </td>
-
-              <td className="p-3">
-                {product.rating}
-              </td>
-
+          <thead className="bg-slate-800">
+            <tr>
+              {headers.map((head) => (
+                <th key={head} className="p-3 font-semibold">
+                  {head}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-      </table>
+          <tbody>
+            {filteredProducts.map((product) => {
+
+              const row = [
+                product.title,
+                `$${product.price}`,
+                product.category,
+                product.rating,
+              ];
+
+              return (
+                <tr
+                  key={product.id}
+                  className="border-t border-slate-700 hover:bg-slate-800 transition"
+                >
+                  {row.map((cell, index) => (
+                    <td key={index} className="p-3">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
   );
