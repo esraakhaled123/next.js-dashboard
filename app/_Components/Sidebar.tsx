@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-// استيراد كل الأيقونات من Lu لضمان عدم حدوث تعارض
+import { usePathname, useRouter } from "next/navigation"; 
+
 import { 
   LuLayoutDashboard, 
   LuPackage, 
@@ -10,11 +10,16 @@ import {
   LuSettings, 
   LuChevronRight, 
   LuMenu, 
-  LuX 
+  LuX,
+  LuLogOut 
 } from "react-icons/lu";
+import { useAppDispatch } from "@/lib/rudux/hooks";
+import { logout } from "@/lib/rudux/authSlice";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  // const router = useRouter();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -24,12 +29,25 @@ export default function Sidebar() {
     { name: "Settings", href: "/dashboard/settings", icon: <LuSettings size={20} /> },
   ];
 
+//   const handleLogout = () => {
+//     document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00";
+// dispatch(logout());
+// router.push("/login");
+//   };
+  const handleLogout = () => {
+  document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+  
+  dispatch(logout());
+
+  window.location.href = "/login"; 
+};
+
   return (
     <>
-      {/* زر المنيو - باستخدام LuMenu */}
+      {/* زر المنيو */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed  right-5 z-50 p-2.5 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 transition-all active:scale-95"
+        className="md:hidden fixed right-5 z-50 p-2.5 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 transition-all active:scale-95"
       >
         <LuMenu size={22} />
       </button>
@@ -56,12 +74,12 @@ export default function Sidebar() {
               <span className="text-xl font-bold tracking-tight">Spark.</span>
             </div>
             
-            {/* زر الإغلاق - باستخدام LuX */}
             <button onClick={() => setOpen(false)} className="md:hidden text-slate-400 hover:text-white transition">
               <LuX size={24} />
             </button>
           </div>
 
+          {/* روابط التنقل */}
           <nav className="flex-1 space-y-1">
             {links.map((link) => {
               const active = pathname === link.href;
@@ -81,6 +99,17 @@ export default function Sidebar() {
               );
             })}
           </nav>
+
+          {/* --- قسم تسجيل الخروج في الأسفل --- */}
+          <div className="pt-4 mt-4 border-t border-slate-800">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-[14px] font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-300"
+            >
+              <LuLogOut size={20} />
+              <span>Logout</span>
+            </button>
+          </div>
 
         </div>
       </aside>
