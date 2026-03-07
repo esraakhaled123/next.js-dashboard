@@ -28,7 +28,7 @@ export default function Navbar() {
           <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
 
-        <div className="flex items-center gap-3 pl-2 group cursor-pointer">
+        <div className=" md:hidden lg:flex  items-center gap-3 pl-2 group cursor-pointer">
           <div className="hidden lg:flex flex-col items-end">
             <span className="text-sm font-bold text-slate-700 leading-none">Esraa khaled</span>
             <span className="text-[11px] text-slate-400 mt-1">Super Admin</span>
