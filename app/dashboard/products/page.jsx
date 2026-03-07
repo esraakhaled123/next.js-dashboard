@@ -80,131 +80,131 @@ export default function ProductsPage() {
   ];
 
   return (
-    <div className="bg-slate-900 p-6 rounded-xl shadow border border-slate-700">
+    <div className="bg-slate-900 p-4 sm:p-6 rounded-xl shadow border border-slate-700">
 
-      <h2 className="text-xl font-semibold mb-4 text-white">
-        Products Table
-      </h2>
+  <h2 className="text-lg sm:text-xl font-semibold mb-4 text-white">
+    Products Table
+  </h2>
 
-      {/* search */}
-<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+  {/* search + buttons */}
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
 
-  {/* search */}
-  <input
-    type="text"
-    placeholder="Search product..."
-    value={search}
-    onChange={(e) => {
-      setSearch(e.target.value);
-      setCurrentPage(1);
-    }}
-    className="w-full md:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-  />
+    {/* search */}
+    <input
+      type="text"
+      placeholder="Search product..."
+      value={search}
+      onChange={(e) => {
+        setSearch(e.target.value);
+        setCurrentPage(1);
+      }}
+      className="w-full sm:w-72 px-3 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
 
-  {/* buttons */}
-  <div className="flex gap-2">
+    {/* buttons */}
+    <div className="flex flex-wrap gap-2">
+
+      <button
+        onClick={() => exportToExcel(sortedProducts, "products")}
+        className="px-4 py-2 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm transition w-full sm:w-auto"
+      >
+        Export Excel
+      </button>
+
+      <button
+        onClick={() => exportToPDF(sortedProducts, "products")}
+        className="px-4 py-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition w-full sm:w-auto"
+      >
+        Export PDF
+      </button>
+
+    </div>
+  </div>
+
+  {/* table */}
+  <div className="overflow-x-auto">
+
+    <table className="min-w-[600px] w-full text-sm text-left text-slate-200">
+
+      <thead className="bg-slate-800">
+        <tr>
+          {headers.map((head) => (
+            <th
+              key={head.key}
+              onClick={() => handleSort(head.key)}
+              className="p-3 font-semibold cursor-pointer hover:text-indigo-400 whitespace-nowrap"
+            >
+              {head.label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+
+      <tbody>
+        {paginatedProducts.map((product) => {
+
+          const row = [
+            product.title,
+            `$${product.price}`,
+            product.category,
+            product.rating,
+          ];
+
+          return (
+            <tr
+              key={product.id}
+              className="border-t border-slate-700 hover:bg-slate-800 transition"
+            >
+              {row.map((cell, index) => (
+                <td key={index} className="p-3 whitespace-nowrap">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          );
+
+        })}
+      </tbody>
+
+    </table>
+
+  </div>
+
+  {/* pagination */}
+  <div className="flex flex-wrap justify-center items-center gap-2 mt-6">
 
     <button
-      onClick={() => exportToExcel(sortedProducts, "products")}
-      className="px-4 py-2 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm transition"
+      onClick={() => setCurrentPage((prev) => prev - 1)}
+      disabled={currentPage === 1}
+      className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40 text-sm"
     >
-      Export Excel
+      Prev
     </button>
 
+    {Array.from({ length: totalPages }, (_, i) => (
+      <button
+        key={i}
+        onClick={() => setCurrentPage(i + 1)}
+        className={`px-3 py-1 rounded border text-sm ${
+          currentPage === i + 1
+            ? "bg-indigo-600 border-indigo-600"
+            : "bg-slate-800 border-slate-700"
+        }`}
+      >
+        {i + 1}
+      </button>
+    ))}
+
     <button
-      onClick={() => exportToPDF(sortedProducts, "products")}
-      className="px-4 py-2 cursor-pointer bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition"
+      onClick={() => setCurrentPage((prev) => prev + 1)}
+      disabled={currentPage === totalPages}
+      className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40 text-sm"
     >
-      Export PDF
+      Next
     </button>
 
   </div>
 
 </div>
-
-      <div className="overflow-x-auto">
-
-        <table className="w-full text-sm text-left text-slate-200">
-
-          <thead className="bg-slate-800">
-            <tr>
-              {headers.map((head) => (
-                <th
-                  key={head.key}
-                  onClick={() => handleSort(head.key)}
-                  className="p-3 font-semibold cursor-pointer hover:text-indigo-400"
-                >
-                  {head.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedProducts.map((product) => {
-
-              const row = [
-                product.title,
-                `$${product.price}`,
-                product.category,
-                product.rating,
-              ];
-
-              return (
-                <tr
-                  key={product.id}
-                  className="border-t border-slate-700 hover:bg-slate-800 transition"
-                >
-                  {row.map((cell, index) => (
-                    <td key={index} className="p-3">
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-
-        </table>
-
-      </div>
-
-      {/* pagination */}
-
-      <div className="flex justify-center items-center gap-2 mt-6">
-
-        <button
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-          disabled={currentPage === 1}
-          className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40"
-        >
-          Prev
-        </button>
-
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded border ${
-              currentPage === i + 1
-                ? "bg-indigo-600 border-indigo-600"
-                : "bg-slate-800 border-slate-700"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-
-        <button
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 rounded bg-slate-800 border border-slate-700 disabled:opacity-40"
-        >
-          Next
-        </button>
-
-      </div>
-
-    </div>
   );
 }
