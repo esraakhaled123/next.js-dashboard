@@ -16,18 +16,27 @@ import {
 import { useAppDispatch } from "@/lib/rudux/hooks";
 import { logout } from "@/lib/rudux/authSlice";
 
+const scrollToProducts = (e: React.MouseEvent) => {
+  e.preventDefault();
+  const element = document.getElementById('products-section');
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start'     
+    });
+  }
+};
+
 export default function Sidebar() {
   const pathname = usePathname();
   // const router = useRouter();
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
-  const links = [
-    { name: "Overview", href: "/dashboard", icon: <LuLayoutDashboard size={20} /> },
-    { name: "Products", href: "/dashboard/products", icon: <LuPackage size={20} /> },
-  
-  ];
-
+ const links = [
+  { name: "Overview", href: "/dashboard", icon: <LuLayoutDashboard size={20} /> },
+  { name: "Products", href: "#products-section", icon: <LuPackage size={20} /> },
+];
 //   const handleLogout = () => {
 //     document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00";
 // dispatch(logout());
@@ -88,13 +97,20 @@ export default function Sidebar() {
               const active = pathname === link.href;
               return (
                 <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-[14px] font-medium transition-all duration-300 ${
-                    active ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20" : "text-slate-400 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
+  key={link.href}
+  href={link.href}
+  onClick={(e) => {
+    if (link.name === "Products") {
+      scrollToProducts(e);
+    }
+    setOpen(false);
+  }}
+  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-[14px] font-medium transition-all duration-300 ${
+    active
+      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20"
+      : "text-slate-400 hover:bg-white/5 hover:text-white"
+  }`}
+>
                   <span className={active ? "text-white" : "text-slate-500"}>{link.icon}</span>
                   <span className="flex-1">{link.name}</span>
                   {active && <LuChevronRight size={14} className="opacity-50" />}

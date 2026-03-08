@@ -65,7 +65,7 @@ export default function ProductsPage() {
   ];
 
   return (
-    <div className="bg-slate-900 p-4 sm:p-6 rounded-xl shadow border border-slate-700">
+    <div id="products-section" className="bg-slate-900 p-4 sm:p-6 rounded-xl shadow border border-slate-700">
       <h2 className="text-lg sm:text-xl font-semibold mb-4 text-white">
         Products Management
       </h2>
