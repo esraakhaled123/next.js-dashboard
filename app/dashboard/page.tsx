@@ -3,7 +3,7 @@
 import { useAppSelector } from "@/lib/rudux/hooks";
 import StatCard from "../_Components/StatCard";
 import SalesChart from "../_Components/SalesChart";
-import ProductsPage from "../_Components/page";
+import ProductsPage from "../_Components/productsPage";
 
 export default function Dashboard() {
 
@@ -29,8 +29,7 @@ export default function Dashboard() {
   const uniqueCategories = new Set(products.map((p) => p.category)).size;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-0 py-6 space-y-8">
-
+<div className="w-full md:max-w-7xl md:mx-auto py-6 space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white">Dashboard</h1>

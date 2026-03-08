@@ -19,16 +19,7 @@ export default function Navbar() {
       <div className="flex items-center gap-2 sm:gap-5">
         
 
-        <button className="p-2 text-slate-400 hover:bg-slate-800 hover:text-white rounded-full transition-all">
-          <LuSearch size={20} />
-        </button>
-
-        <button className="p-2 text-slate-400 hover:bg-slate-800 hover:text-white rounded-full transition-all relative">
-          <LuBell size={20} />
-
-
-          <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-slate-900"></span>
-        </button>
+      
 
         <div className="h-6 w-[1px] bg-slate-800 mx-2 hidden lg:block"></div>
 
