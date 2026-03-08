@@ -6,10 +6,10 @@ export default function Dashboard() {
   return (
     // max-w-7xl لضمان عدم تمدد المحتوى بشكل مبالغ فيه في الشاشات العملاقة
     // space-y-6 بدلاً من mt-6 لتنظيم المسافات الرأسية
-    <div className="max-w-7xl mx-auto space-y-6 pb-8">
+    <div className="max-w-7xl mx-auto space-y-6 pb-8   ">
       
       {/* 1. قسم الكروت (Grid) - متجاوب بالكامل */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard title="Total Users" value="1,240" />
         <StatCard title="Revenue" value="$8,540" />
         <StatCard title="Active Orders" value="320" />
