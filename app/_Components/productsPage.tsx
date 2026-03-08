@@ -100,7 +100,7 @@ export default function ProductsPage() {
       </div>
 
       {/* table */}
-      <div className="w-full overflow-hidden"> {/* أزال السكرول الجانبي */}
+      <div className="w-full overflow-hidden"> 
         <table className="w-full text-sm text-left text-slate-200">
           <thead className="bg-slate-800 text-slate-300">
             <tr>
