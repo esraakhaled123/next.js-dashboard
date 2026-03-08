@@ -25,8 +25,7 @@ export default function Sidebar() {
   const links = [
     { name: "Overview", href: "/dashboard", icon: <LuLayoutDashboard size={20} /> },
     { name: "Products", href: "/dashboard/products", icon: <LuPackage size={20} /> },
-    { name: "Users", href: "/dashboard/users", icon: <LuUsers size={20} /> },
-    { name: "Settings", href: "/dashboard/settings", icon: <LuSettings size={20} /> },
+  
   ];
 
 //   const handleLogout = () => {
@@ -44,7 +43,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* زر المنيو */}
       <button
         onClick={() => setOpen(true)}
         className="md:hidden fixed right-5 z-50 p-2.5 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-600 hover:bg-slate-50 transition-all active:scale-95"
@@ -71,7 +69,12 @@ export default function Sidebar() {
           <div className="flex items-center justify-between mb-8 px-2 py-4">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center font-bold">S</div>
-              <span className="text-xl font-bold tracking-tight">Spark.</span>
+              <Link href="/dashboard" className="flex items-center gap-2 group">
+  
+  <span className="text-xl font-bold tracking-tight text-white group-hover:text-indigo-400 transition-colors">
+    Spark.
+  </span>
+</Link>
             </div>
             
             <button onClick={() => setOpen(false)} className="md:hidden text-slate-400 hover:text-white transition">
@@ -79,7 +82,7 @@ export default function Sidebar() {
             </button>
           </div>
 
-          {/* روابط التنقل */}
+
           <nav className="flex-1 space-y-1">
             {links.map((link) => {
               const active = pathname === link.href;
@@ -100,7 +103,7 @@ export default function Sidebar() {
             })}
           </nav>
 
-          {/* --- قسم تسجيل الخروج في الأسفل --- */}
+        {/* log out  */}
           <div className="pt-4 mt-4 border-t border-slate-800">
             <button
               onClick={handleLogout}
