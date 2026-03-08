@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Spark Dashboard
 
-## Getting Started
+A modern and responsive **Admin Dashboard** built using **Next.js**, **Redux Toolkit**, and **Tailwind CSS**.
+The application provides product analytics, a chart overview, and a searchable products management section.
 
-First, run the development server:
+---
+
+## Live Demo
+
+https://next-js-dashboard-flax-nine.vercel.app/dashboard
+
+---
+
+## GitHub Repository
+
+https://github.com/esraakhaled123/next.js-dashboard
+
+---
+
+## Features
+
+### Dashboard
+
+* Statistics cards displaying:
+
+  * Total number of products
+  * Total products value
+  * Average rating
+  * Number of product categories
+* Product price overview chart using **Recharts**
+* Responsive layout optimized for desktop and mobile devices
+
+### Products Section
+
+* Displays a list of products from the global Redux store
+* **Search functionality** to filter products by title
+* **Sorting** to organize products based on different criteria
+* **Pagination system** to navigate through product pages
+* **Export functionality** to download product data as **Excel** or **PDF**
+* Responsive product cards layout
+
+
+### UI / UX
+
+* Responsive sidebar navigation
+* Smooth scrolling navigation between sections
+* Clean and modern dashboard interface
+* Reusable React components
+
+---
+
+## Tech Stack
+
+* Next.js (App Router)
+* React
+* TypeScript
+* Redux Toolkit
+* Tailwind CSS
+* Recharts
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/esraakhaled123/next.js-dashboard.git
+```
+
+Navigate to the project folder:
+
+```bash
+cd next.js-dashboard
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the project in your browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Implementation Approach
 
-To learn more about Next.js, take a look at the following resources:
+The project was developed using **Next.js with the App Router** to create a modern and scalable React application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Redux Toolkit** is used for global state management, allowing product data and authentication state to be accessed across multiple components such as the dashboard statistics, charts, and the products section.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The **Products page** includes search and pagination functionality to help users easily browse and filter through product data.
 
-## Deploy on Vercel
+The user interface was built using **Tailwind CSS** to create a clean, responsive, and modern dashboard layout.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For data visualization, **Recharts** was used to display product price insights in a chart format.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application structure follows a **component-based architecture**, separating the UI into reusable parts such as:
+
+* Sidebar navigation
+* Statistic cards
+* Chart component
+* Products section
